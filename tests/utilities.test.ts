@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { parseEnvConfigFromFile } from '../lib/utilities';
+import { envVarInterpolation, parseEnvConfigFromFile } from '../lib/utilities';
 
 describe('utilities.ts', () => {
   describe('parseEnvConfigFromFile', () => {
@@ -24,6 +24,39 @@ describe('utilities.ts', () => {
           }
         });
       });
+    });
+  });
+
+  describe('envVarInterpolation', () => {
+    it('should replace env vars', () => {
+      process.env.EC_VAR_A = 'abc';
+      process.env.EC_VAR_B = 'def';
+      const actual = envVarInterpolation({
+        config: {
+          base: {
+            varA: '/some/path/baseA',
+            varB: '/some/path/${process.env.EC_VAR_B}/baseB'
+          },
+          env1: {
+            varA: '/some/path//${process.env.EC_VAR_A}/env1A',
+            varC: '/some/path/env1C'
+          }
+        }
+      });
+
+      expect(actual).toStrictEqual({
+        base: {
+          varA: '/some/path/baseA',
+          varB: '/some/path/def/baseB'
+        },
+        env1: {
+          varA: '/some/path//abc/env1A',
+          varC: '/some/path/env1C'
+        }
+      });
+
+      delete process.env.EC_VAR_A;
+      delete process.env.EC_VAR_B;
     });
   });
 });
