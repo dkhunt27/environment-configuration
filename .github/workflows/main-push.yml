@@ -80,7 +80,7 @@ jobs:
         with:
           semantic_version: 18
           dry_run: 'false'
-          branches: ['main']
+          branches: 'main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
