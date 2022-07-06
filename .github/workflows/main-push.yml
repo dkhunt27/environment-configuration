@@ -1,8 +1,8 @@
-name: OnPushToMaster
+name: OnPushToMain
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build:
