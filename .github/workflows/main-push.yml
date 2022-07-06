@@ -75,7 +75,6 @@ jobs:
 
       - if: ${{ matrix.node-version == '16.x' }}
         name: Semantic Release
-        id: semanticPreRelease
         uses: dkhunt27/semantic-release-action@v2.8.0-beta
         with:
           semantic_version: 18
@@ -83,6 +82,7 @@ jobs:
           branches: 'main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - if: ${{ matrix.node-version == '16.x' }}
         name: Annotate release
@@ -91,8 +91,8 @@ jobs:
           type: notice
           msg: Released ${{ needs.version.outputs.publishVersion }}
 
-      - if: ${{ matrix.node-version == '16.x' }}
-        name: Publish
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      # - if: ${{ matrix.node-version == '16.x' }}
+      #   name: Publish
+      #   uses: JS-DevTools/npm-publish@v1
+      #   with:
+      #     token: ${{ secrets.NPM_TOKEN }}
