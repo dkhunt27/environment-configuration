@@ -46,7 +46,7 @@ export const processEnvConfig = async <T extends Record<string, unknown>>(params
   });
 
   // replace any ${process.env.VARS} (mainly replacing ${process.env.APP_ENV})
-  const envConfigCompiled = envVarInterpolation(envConfig);
+  const envConfigCompiled = envVarInterpolation({ config: envConfig });
 
   // extract base and merge with appEnv
   let ec = extractEnvConfig({

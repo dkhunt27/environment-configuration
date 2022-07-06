@@ -103,7 +103,9 @@ expected output for APP_ENV='dev'
 inputs
   config: object           -- the config object to process
 */
-export const envVarInterpolation = (config: Record<string, unknown>): Record<string, unknown> => {
+export const envVarInterpolation = (params: { config: Record<string, unknown> }): Record<string, unknown> => {
+  const { config } = params;
+
   for (const key in config) {
     const val = config[key];
 
@@ -116,7 +118,7 @@ export const envVarInterpolation = (config: Record<string, unknown>): Record<str
       });
       config[key] = compiled;
     } else {
-      config[key] = envVarInterpolation(val as Record<string, unknown>);
+      config[key] = envVarInterpolation({ config: val as Record<string, unknown> });
     }
   }
 
