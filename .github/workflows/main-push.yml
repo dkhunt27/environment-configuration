@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -72,6 +72,23 @@ jobs:
         name: Minify
         run: |
           yarn minify
+
+      - if: ${{ matrix.node-version == '16.x' }}
+        name: Semantic Release
+        id: semanticPreRelease
+        uses: dkhunt27/semantic-release-action@v2.8.0-beta
+        with:
+          semantic_version: 18
+          dry_run: 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ matrix.node-version == '16.x' }}
+        name: Annotate release
+        uses: dkhunt27/action-annotations@beta
+        with:
+          type: notice
+          msg: Released ${{ needs.version.outputs.publishVersion }}
 
       - if: ${{ matrix.node-version == '16.x' }}
         name: Publish
