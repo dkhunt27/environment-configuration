@@ -17,16 +17,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Release
-        uses: actions/create-release@v1
+      - name: Semantic Release
+        id: semanticPreRelease
+        uses: dkhunt27/semantic-release-action@v2.8.0-beta
+        with:
+          semantic_version: 18
+          dry_run: 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Annotate release
+        uses: dkhunt27/action-annotations@beta
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+          type: notice
+          msg: Released ${{ needs.version.outputs.publishVersion }}

@@ -36,10 +36,10 @@ jobs:
         run: |
           yarn build
 
-      - if: ${{ matrix.node-version == '16.x' }}
-        name: Build Docs
-        run: |
-          yarn docs
+      # - if: ${{ matrix.node-version == '16.x' }}
+      #   name: Build Docs
+      #   run: |
+      #     yarn docs
 
       # https://dev.to/thejaredwilcurt/coverage-badge-with-github-actions-finally-59fa
       - if: ${{ matrix.node-version == '16.x' }}
