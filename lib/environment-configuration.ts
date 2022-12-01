@@ -56,7 +56,9 @@ export const processEnvConfigFileWithConsole = async <T extends Record<string, u
   return processEnvConfigFile<T>({
     appEnv,
     pathToEnvConfig,
+    // eslint-disable-next-line no-console
     logInfo: console.log,
+    // eslint-disable-next-line no-console
     logWarn: console.warn
   });
 };
@@ -124,7 +126,9 @@ export const processInMemoryEnvConfigWithConsole = async <T extends Record<strin
   return processInMemoryEnvConfig<T>({
     appEnv,
     config,
+    // eslint-disable-next-line no-console
     logInfo: console.log,
+    // eslint-disable-next-line no-console
     logWarn: console.warn
   });
 };
