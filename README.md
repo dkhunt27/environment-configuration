@@ -1,8 +1,8 @@
 # environment-configuration
 
-Loads environment configuration from json file
+Loads environment configuration from json file or processes an in memory environment configuration object.
 
-This parses a config file and merges the variables specified in the base (default) with an environment specified set. It will interpolate any env variables. Finally it will process any instructions contained in the variable value. Currently env variable replacing and AWS SSM variable replacing is supported.
+This merges the variables specified in the base (default) with an environment specified set. It will interpolate any env variables. Finally it will process any instructions contained in the variable value. Currently env variable replacing and AWS SSM variable replacing is supported.
 
 ## Instructions
 

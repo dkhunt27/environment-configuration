@@ -75,6 +75,7 @@ jobs:
 
       - if: ${{ matrix.node-version == '16.x' }}
         name: Semantic Release
+        id: semanticRelease
         uses: dkhunt27/semantic-release-action@v2.8.0-beta
         with:
           semantic_version: 18
@@ -89,7 +90,7 @@ jobs:
         uses: dkhunt27/action-annotations@beta
         with:
           type: notice
-          msg: Released ${{ needs.version.outputs.publishVersion }}
+          msg: Released ${{ steps.semanticRelease.outputs.new_release_version }}
 
       # - if: ${{ matrix.node-version == '16.x' }}
       #   name: Publish

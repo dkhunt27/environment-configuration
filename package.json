@@ -1,6 +1,6 @@
 {
   "name": "environment-configuration",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "description": "Load environment configuration from json",
   "author": "Dan Hunt <dkhunt27@gmail.com>",
   "homepage": "https://github.com/dkhunt27/environment-configuration",

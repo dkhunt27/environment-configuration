@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { processEnvConfig } from '../lib/environment-configuration';
+import { processEnvConfigFile, processInMemoryEnvConfig } from '../lib/environment-configuration';
 
 describe('env-config.ts', () => {
   let logWarn: jest.Mock;
@@ -8,7 +8,7 @@ describe('env-config.ts', () => {
     logWarn = jest.fn();
     logInfo = jest.fn();
   });
-  describe('processEnvConfig', () => {
+  describe('processEnvConfigFile', () => {
     describe('with a basic config', () => {
       let filePath = '';
       beforeEach(() => {
@@ -16,7 +16,7 @@ describe('env-config.ts', () => {
       });
       it('valid env, should process', async () => {
         await expect(
-          processEnvConfig({ appEnv: 'envA', pathToEnvConfig: filePath, logWarn, logInfo })
+          processEnvConfigFile({ appEnv: 'envA', pathToEnvConfig: filePath, logWarn, logInfo })
         ).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: 'var2EnvAValue'
@@ -24,7 +24,7 @@ describe('env-config.ts', () => {
       });
       it('bad env, should use base and warn', async () => {
         await expect(
-          processEnvConfig({ appEnv: 'envC', pathToEnvConfig: filePath, logWarn, logInfo })
+          processEnvConfigFile({ appEnv: 'envC', pathToEnvConfig: filePath, logWarn, logInfo })
         ).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: 'var2BaseValue'
@@ -34,7 +34,7 @@ describe('env-config.ts', () => {
       it('valid env with valid interpolation, should process', async () => {
         process.env.VAR2 = 'var2EnvBValue';
         await expect(
-          processEnvConfig({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
+          processEnvConfigFile({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
         ).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: 'var2EnvBValue'
@@ -45,7 +45,7 @@ describe('env-config.ts', () => {
       it('valid env with invalid interpolation, should process but with empty interpolation', async () => {
         delete process.env.VAR2;
         await expect(
-          processEnvConfig({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
+          processEnvConfigFile({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
         ).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: ''
@@ -61,7 +61,7 @@ describe('env-config.ts', () => {
       it('env instruction config with valid env var, valid env, should process', async () => {
         process.env.VAR2 = 'var2EnvBValue';
         await expect(
-          processEnvConfig({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
+          processEnvConfigFile({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })
         ).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: 'var2EnvBValue'
@@ -71,7 +71,89 @@ describe('env-config.ts', () => {
 
       it('env instruction config with invalid env var, valid env, should error', async () => {
         delete process.env.VAR2;
-        await expect(processEnvConfig({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })).rejects.toThrow(
+        await expect(processEnvConfigFile({ appEnv: 'envB', pathToEnvConfig: filePath, logWarn, logInfo })).rejects.toThrow(
+          'EnvConfig::EnvVarInstruction env var does not exist: VAR2'
+        );
+      });
+    });
+  });
+
+  describe('processInMemoryEnvConfig', () => {
+    describe('with a basic config', () => {
+      let config = {};
+      beforeEach(() => {
+        config = {
+          base: {
+            var1: 'var1BaseValue',
+            var2: 'var2BaseValue'
+          },
+          envA: {
+            var2: 'var2EnvAValue'
+          },
+          envB: {
+            var2: '${process.env.VAR2}'
+          }
+        };
+      });
+      it('valid env, should process', async () => {
+        await expect(processInMemoryEnvConfig({ appEnv: 'envA', config, logWarn, logInfo })).resolves.toStrictEqual({
+          var1: 'var1BaseValue',
+          var2: 'var2EnvAValue'
+        });
+      });
+      it('bad env, should use base and warn', async () => {
+        await expect(processInMemoryEnvConfig({ appEnv: 'envC', config, logWarn, logInfo })).resolves.toStrictEqual({
+          var1: 'var1BaseValue',
+          var2: 'var2BaseValue'
+        });
+        expect(logWarn).toHaveBeenCalledTimes(1);
+      });
+      it('valid env with valid interpolation, should process', async () => {
+        process.env.VAR2 = 'var2EnvBValue';
+        await expect(processInMemoryEnvConfig({ appEnv: 'envB', config, logWarn, logInfo })).resolves.toStrictEqual({
+          var1: 'var1BaseValue',
+          var2: 'var2EnvBValue'
+        });
+        delete process.env.VAR2;
+      });
+
+      it('valid env with invalid interpolation, should process but with empty interpolation', async () => {
+        delete process.env.VAR2;
+        await expect(processInMemoryEnvConfig({ appEnv: 'envB', config, logWarn, logInfo })).resolves.toStrictEqual({
+          var1: 'var1BaseValue',
+          var2: ''
+        });
+      });
+    });
+
+    describe('with env instruction config', () => {
+      let config = {};
+      beforeEach(() => {
+        config = {
+          base: {
+            var1: 'var1BaseValue',
+            var2: 'var2BaseValue'
+          },
+          envA: {
+            var2: 'var2EnvAValue'
+          },
+          envB: {
+            var2: 'env::VAR2'
+          }
+        };
+      });
+      it('env instruction config with valid env var, valid env, should process', async () => {
+        process.env.VAR2 = 'var2EnvBValue';
+        await expect(processInMemoryEnvConfig({ appEnv: 'envB', config, logWarn, logInfo })).resolves.toStrictEqual({
+          var1: 'var1BaseValue',
+          var2: 'var2EnvBValue'
+        });
+        delete process.env.VAR2;
+      });
+
+      it('env instruction config with invalid env var, valid env, should error', async () => {
+        delete process.env.VAR2;
+        await expect(processInMemoryEnvConfig({ appEnv: 'envB', config, logWarn, logInfo })).rejects.toThrow(
           'EnvConfig::EnvVarInstruction env var does not exist: VAR2'
         );
       });
