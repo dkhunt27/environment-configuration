@@ -1,15 +1,15 @@
 import * as path from 'path';
-import { envVarInterpolation, parseEnvConfigFromFile } from '../lib/utilities';
+import { envVarInterpolation, parseConfigFromFile } from '../lib/utilities';
 
 describe('utilities.ts', () => {
-  describe('parseEnvConfigFromFile', () => {
+  describe('parseConfigFromFile', () => {
     describe('with a basic config', () => {
       let filePath = '';
       beforeEach(() => {
         filePath = path.join(__dirname, './env-config-basic.json');
       });
       it('should process', () => {
-        const actual = parseEnvConfigFromFile({ pathToEnvConfig: filePath });
+        const actual = parseConfigFromFile({ pathToEnvConfig: filePath });
 
         expect(actual).toStrictEqual({
           base: {

@@ -9,10 +9,10 @@ module.exports = {
   collectCoverageFrom: ['lib/**/*.{ts,tsx,js,jsx}', '!lib/**/*.d.ts', '!lib/**/index.ts'],
   coverageThreshold: {
     global: {
-      statements: 80,
+      statements: 75,
       branches: 35,
-      functions: 100,
-      lines: 80
+      functions: 75,
+      lines: 75
     }
   },
   collectCoverage: false

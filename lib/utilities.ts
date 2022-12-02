@@ -52,7 +52,7 @@ Parses env config json from file path specified
 inputs
    pathToEnvConfig: string  -- the path to the config file (used just for log messages)
 */
-export const parseEnvConfigFromFile = (params: { pathToEnvConfig: string }): Record<string, unknown> => {
+export const parseConfigFromFile = (params: { pathToEnvConfig: string }): Record<string, unknown> => {
   const { pathToEnvConfig } = params;
 
   let envConfig = {};
@@ -158,16 +158,15 @@ inputs
 export const extractEnvConfig = (params: {
   config: Record<string, unknown>;
   appEnv: string;
-  pathToEnvConfig: string;
   logWarn: (msg: string) => void;
 }): Record<string, unknown> => {
   const logKey = 'EnvConfig::extractEnvConfig';
-  const { config, pathToEnvConfig, appEnv, logWarn } = params;
+  const { config, appEnv, logWarn } = params;
 
   const base = config.base as Record<string, unknown>;
 
   if (!base) {
-    throw new Error(`${logKey} ${pathToEnvConfig} is missing base or specified APP_ENV:${appEnv}`);
+    throw new Error(`${logKey} base section is missing in envConfig`);
   }
 
   const specified = config[appEnv] as Record<string, unknown>;
@@ -176,7 +175,7 @@ export const extractEnvConfig = (params: {
   if (specified) {
     ec = { ...base, ...specified };
   } else {
-    logWarn(`${logKey} did not find specified APP_ENV:${appEnv}, using base only`);
+    logWarn(`${logKey} did not find specified appEnv: ${appEnv}, using base only`);
     ec = { ...base };
   }
 
