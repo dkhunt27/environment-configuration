@@ -12,7 +12,7 @@ describe('env-var-instruction.ts', () => {
     });
     it('with missing env var, should replace', async () => {
       delete process.env.VAR;
-      await expect(execute({ instruction: 'env::VAR', logInfo: jest.fn() })).rejects.toThrowError(
+      await expect(execute({ instruction: 'env::VAR', logInfo: jest.fn() })).rejects.toThrow(
         'EnvConfig::EnvVarInstruction env var does not exist: VAR'
       );
     });

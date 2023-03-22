@@ -1,10 +1,24 @@
 name: OnPushToMain
+# v1 - 3/22/2023
+#   install
+#   build, lint, test
+#   coverage badge
+#   create release
+#   publish
 
 on:
   push:
     branches: [main]
 
 jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conventional Commits (dkhunt27)
+        uses: dkhunt27/action-conventional-commits@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   publish:
     runs-on: ubuntu-latest
 
@@ -13,33 +27,26 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install
-        run: |
-          yarn install
-
-      - name: Test
-        run: |
-          yarn test:coverage
-
-      - name: Lint
-        run: |
-          yarn lint:prod
+      - uses: bahmutov/npm-install@v1
 
       - name: Build
-        run: |
-          yarn build
+        run: yarn build
+
+      - name: Lint
+        run: yarn lint:prod
+
+      - name: Test
+        run: yarn test:coverage
 
       # - if: ${{ matrix.node-version == '18.x' }}
       #   name: Build Docs
-      #   run: |
-      #     yarn docs
+      #   run: yarn docs
 
       # https://dev.to/thejaredwilcurt/coverage-badge-with-github-actions-finally-59fa
       - if: ${{ matrix.node-version == '18.x' }}
@@ -60,7 +67,7 @@ jobs:
         name: Create the Badge
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
-          auth: ${{ secrets.GIST_SECRET }}
+          auth: ${{ secrets.GIST_SECRET_FOR_COVERAGE_BADGES }}
           gistID: e35a3788f0a2b9faec15f7869073a515
           filename: environment-configuration__${{ env.BRANCH }}.json
           label: Test Coverage
@@ -70,13 +77,12 @@ jobs:
 
       # - if: ${{ matrix.node-version == '18.x' }}
       #   name: Minify
-      #   run: |
-      #     yarn minify
+      #   run: yarn minify
 
       - if: ${{ matrix.node-version == '18.x' }}
         name: Semantic Release
         id: semanticRelease
-        uses: dkhunt27/semantic-release-action@v2.8.0-beta
+        uses: dkhunt27/semantic-release-action@v3.2.0-beta1
         with:
           semantic_version: 18
           dry_run: 'false'
@@ -87,7 +93,7 @@ jobs:
 
       - if: ${{ matrix.node-version == '18.x' }}
         name: Annotate release
-        uses: dkhunt27/action-annotations@beta
+        uses: dkhunt27/action-annotations@v1
         with:
           type: notice
           msg: Released ${{ steps.semanticRelease.outputs.new_release_version }}
