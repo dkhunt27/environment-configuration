@@ -98,8 +98,9 @@ jobs:
           type: notice
           msg: Released ${{ steps.semanticRelease.outputs.new_release_version }}
 
-      - if: ${{ matrix.node-version == '18.x' }}
-        name: Publish
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      # this is not needed, Semantic Release is also publishing to npm
+      # - if: ${{ matrix.node-version == '18.x' }}
+      #   name: Publish
+      #   uses: JS-DevTools/npm-publish@v1
+      #   with:
+      #     token: ${{ secrets.NPM_TOKEN }}
