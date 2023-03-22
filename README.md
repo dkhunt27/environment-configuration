@@ -4,8 +4,6 @@ Loads environment configuration from json file or processes an in memory environ
 
 This merges the variables specified in the base (default) with an environment specified set. It will interpolate any env variables. Finally it will process any instructions contained in the variable value. Currently env variable replacing and AWS SSM variable replacing is supported.
 
-## CICD
-
 ## Instructions
 
 ### Environment Variable Instruction

@@ -2330,6 +2330,11 @@ bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
+bluebird@^3.0.6:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+  integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
+
 bowser@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
@@ -2616,6 +2621,11 @@ color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+
+commander@^2.9.0:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 compare-func@^2.0.0:
   version "2.0.0"
@@ -3288,6 +3298,15 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+generate-changelog@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/generate-changelog/-/generate-changelog-1.8.0.tgz#1d788cdef5a13a649da7eb2a1f3b02674850e4a8"
+  integrity sha512-msgpxeB75Ziyg3wGsZuPNl7c5RxChMKmYcAX5obnhUow90dBZW3nLic6nxGtst7Bpx453oS6zAIHcX7F3QVasw==
+  dependencies:
+    bluebird "^3.0.6"
+    commander "^2.9.0"
+    github-url-from-git "^1.4.0"
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
@@ -3337,6 +3356,11 @@ git-raw-commits@^2.0.0:
     meow "^8.0.0"
     split2 "^3.0.0"
     through2 "^4.0.0"
+
+github-url-from-git@^1.4.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/github-url-from-git/-/github-url-from-git-1.5.0.tgz#f985fedcc0a9aa579dc88d7aff068d55cc6251a0"
+  integrity sha512-WWOec4aRI7YAykQ9+BHmzjyNlkfJFG8QLXnDTsLz/kZefq7qkzdfo4p6fkYYMIq1aj+gZcQs/1HQhQh3DPPxlQ==
 
 giturl@^1.0.0:
   version "1.0.1"
