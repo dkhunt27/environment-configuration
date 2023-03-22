@@ -4,6 +4,8 @@ Loads environment configuration from json file or processes an in memory environ
 
 This merges the variables specified in the base (default) with an environment specified set. It will interpolate any env variables. Finally it will process any instructions contained in the variable value. Currently env variable replacing and AWS SSM variable replacing is supported.
 
+![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/dkhunt27/d7e6b443a01eba615fd2a7c1215aec91/raw/fb36777bf53a50ea3fa4de73043f9bf7c988edd3/coverage-apps-auto-letters-api.json) ![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/dkhunt27/d7e6b443a01eba615fd2a7c1215aec91/raw/fb36777bf53a50ea3fa4de73043f9bf7c988edd3/coverage-apps-client-dashboard.json)
+
 ## Instructions
 
 ### Environment Variable Instruction
