@@ -4,6 +4,8 @@ Loads environment configuration from json file or processes an in memory environ
 
 This merges the variables specified in the base (default) with an environment specified set. It will interpolate any env variables. Finally it will process any instructions contained in the variable value. Currently env variable replacing and AWS SSM variable replacing is supported.
 
+## CICD
+
 ## Instructions
 
 ### Environment Variable Instruction
@@ -61,3 +63,11 @@ def
   varE: 'def',  # result of ssm::/ssm/param/varE
 }
 ```
+
+## Publishing
+
+- Make changes
+- Create git commit using feat: for new features or fix: for updates
+- Run yarn release:major, release:minor, release:patch for appropriate update (this will bump version number appropriately)
+- Make PR back to main
+- Upon merge to main, it will kick off action that will publish to npm
