@@ -61,3 +61,11 @@ def
   varE: 'def',  # result of ssm::/ssm/param/varE
 }
 ```
+
+## Publishing
+
+- Make changes
+- Create git commit using feat: for new features or fix: for updates
+- Run yarn release:major, release:minor, release:patch for appropriate update (this will bump version number appropriately)
+- Make PR back to main
+- Upon merge to main, it will kick off action that will publish to npm

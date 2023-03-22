@@ -1,6 +1,6 @@
 {
   "name": "environment-configuration",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Load environment configuration from json",
   "author": "Dan Hunt <dkhunt27@gmail.com>",
   "homepage": "https://github.com/dkhunt27/environment-configuration",
@@ -25,7 +25,10 @@
     "minify": "yarn uglifyjs --compress --mangle --output out/environment-configuration.js dist/lib/environment-configuration.js",
     "test:coverage": "yarn jest --coverage --testMatch='**/tests/**/?(*.)+(test).(ts)'",
     "test:watch": "yarn jest --watch --testMatch='**/tests/**/?(*.)+(test).(ts)'",
-    "test": "yarn jest --testMatch='**/tests/**/?(*.)+(test).(ts)'"
+    "test": "yarn jest --testMatch='**/tests/**/?(*.)+(test).(ts)'",
+    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags",
+    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
+    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags"
   },
   "main": "dist/lib/environment-configuration.js",
   "files": [
@@ -35,7 +38,7 @@
     "yarn.lock"
   ],
   "dependencies": {
-    "aws-sdk": "^2.1168.0",
+    "@aws-sdk/client-ssm": "^3.226.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -49,6 +52,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "generate-changelog": "^1.8.0",
     "jest": "^28.1.2",
     "npm-check-pr397": "^6.0.4",
     "prettier": "^2.7.1",
