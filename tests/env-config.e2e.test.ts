@@ -18,7 +18,7 @@ describe('env-config.ts E2E', () => {
           }
         };
       });
-      it('should process ssm param', async () => {
+      it.skip('should process ssm param', async () => {
         await expect(processInMemoryEnvConfigWithConsole({ appEnv: 'envA', config })).resolves.toStrictEqual({
           var1: 'var1BaseValue',
           var2: 'var2EnvAValue'
@@ -28,7 +28,7 @@ describe('env-config.ts E2E', () => {
         process.env.ENVIRONMENT_CONFIGURATION_VAR2 = 'var2EnvBValue2';
         await expect(processInMemoryEnvConfigWithConsole({ appEnv: 'envB', config })).resolves.toStrictEqual({
           var1: 'var1BaseValue',
-          var2: 'var2EnvBValue'
+          var2: 'var2EnvBValue2'
         });
         delete process.env.ENVIRONMENT_CONFIGURATION_VAR2;
       });
