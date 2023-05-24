@@ -1,5 +1,7 @@
 import { GetParameterCommand, SSMClient, SSMClientConfig } from '@aws-sdk/client-ssm';
 
+// https://stackoverflow.com/questions/66969381/how-to-configure-nodejs-aws-sdk-using-s3-client-library-with-proxy
+
 const logKey = 'EnvConfig::SsmParamInstruction';
 
 const region = process.env.AWS_REGION || 'us-east-2';
