@@ -39,6 +39,7 @@
   ],
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.226.0",
+    "@aws-sdk/credential-providers": "^3.226.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
