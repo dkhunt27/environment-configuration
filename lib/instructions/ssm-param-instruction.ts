@@ -1,17 +1,16 @@
 import { GetParameterCommand, SSMClient, SSMClientConfig } from '@aws-sdk/client-ssm';
+import { fromSSO } from '@aws-sdk/credential-providers';
 
 const logKey = 'EnvConfig::SsmParamInstruction';
 
-const region = process.env.AWS_REGION || 'us-east-2';
-
-const config: SSMClientConfig = {
-  region
-};
-
-const ssm = new SSMClient(config);
+let ssm : SSMClient;
 
 export const execute = async (params: { instruction: string; logInfo: (msg: string) => void }): Promise<string> => {
   const { instruction, logInfo } = params;
+
+  if (!ssm) {
+    ssm = await createSsmClient();
+  }
 
   if (instruction.indexOf('ssm::') === 0) {
     const ssmKey = instruction.slice('ssm::'.length);
@@ -34,3 +33,22 @@ export const execute = async (params: { instruction: string; logInfo: (msg: stri
     return instruction;
   }
 };
+
+async function createSsmClient() {
+  const config: SSMClientConfig = await getSsmClientConfig();
+  return new SSMClient(config);
+}
+
+export async function getSsmClientConfig() {
+  const region = process.env.AWS_REGION || 'us-east-2';
+  const config: SSMClientConfig = {
+    region
+  };
+  if (process.env.AWS_PROFILE) {
+    config.credentials = await fromSSO({
+      profile: process.env.AWS_PROFILE
+    });
+  }
+  return config;
+}
+
